@@ -1,9 +1,8 @@
-## infix to postfix and calculate 
-# Yalnızca tek digit işlemler yapılabiliyor
-
+# infix to postfix and calculate 
+## infix ifade postfix olarak çevriliyor ve sonuç hesabı yapılıyor
 Programı test etmek için terminal kullanabilirsiniz
 
 örneğin:
 
-> ruby Test.rb 2+8/2 
+> ruby Test.rb "400/2+10/2" 
  

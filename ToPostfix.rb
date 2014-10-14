@@ -9,12 +9,9 @@ class ToPostfix
 	end
 
 	def ConvertToPostfix
-		
-		for i in 0..@input.length-1
+		i = 0
+		while i<@input.length
 			temp = @input[i]
-			if temp == ' '
-				next
-			end
 			if temp == '+' or temp == '-' or temp == '*' or temp == '/'
 				if @opStk.empty?
 					@opStk.push(temp)
@@ -28,24 +25,35 @@ class ToPostfix
 					end
 					@opStk.push(temp)
 				end
-			else
+			elsif integer? temp
 				@postfix = @postfix + " " + temp
-				
+				while true
+					if i == @input.length-1
+						break
+					end
+					if integer? @input[i+1]
+						i = i+1
+						@postfix = @postfix + @input[i]
+					else
+						break
+					end
+				end
 			end
+			i = i+1
 		end
+
 		while @opStk.empty? == false
 			@postfix = @postfix + " " + @opStk.pop
 		end
+
+		
 		return @postfix
 	end
 
 	def Calculate
-
-		for i in 0..@postfix.length-1
+		i = 0
+		while i<@postfix.length
 			temp = @postfix[i]
-			if temp == ' '
-				next
-			end
 			if temp == '+' or temp == '-' or temp == '*' or temp == '/' 
 				case temp
 				when '+'
@@ -57,14 +65,31 @@ class ToPostfix
 				when '*'
 					@sumStk.push(@sumStk.pop * @sumStk.pop)
 				end
-			else
-				@sumStk.push(temp.to_f)
+			elsif integer? temp
+				num = temp
+				while true
+					if i == @postfix.length-1
+						break
+					end
+					if integer? @postfix[i+1]
+						i = i+1
+						num = num + @postfix[i]
+					else
+						break
+					end
+				end
+				@sumStk.push(num.to_f)
 			end
+			i = i+1
 		end
 		return @sumStk.pop
 	end
 
 	private
+
+	def integer?(str)
+  		/\A[+-]?\d+\z/ === str
+	end
 
 	def level(opr)
 		case opr
@@ -72,6 +97,6 @@ class ToPostfix
 			1
 		when "*","/"
 			2
-			end
 		end
+	end
 end
