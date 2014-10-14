@@ -4,5 +4,5 @@ Programı test etmek için terminal kullanabilirsiniz
 
 örneğin:
 
-> ruby Test.rb "400/2+10/2" 
+> ruby Test.rb "30+5*(2+5)+90/3" 
  

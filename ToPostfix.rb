@@ -12,7 +12,17 @@ class ToPostfix
 		i = 0
 		while i<@input.length
 			temp = @input[i]
-			if temp == '+' or temp == '-' or temp == '*' or temp == '/'
+			if temp =='('
+				i = i.next
+				temp = @input[i]
+				stringTemp = ""
+				while temp != ')'
+					stringTemp = stringTemp + temp
+					i = i.next
+					temp = @input[i]
+				end
+				@postfix = @postfix + ToPostfix.new(stringTemp).ConvertToPostfix
+			elsif temp == '+' or temp == '-' or temp == '*' or temp == '/'
 				if @opStk.empty?
 					@opStk.push(temp)
 				else
@@ -31,15 +41,15 @@ class ToPostfix
 					if i == @input.length-1
 						break
 					end
-					if integer? @input[i+1]
-						i = i+1
+					if integer? @input[i.next]
+						i = i.next
 						@postfix = @postfix + @input[i]
 					else
 						break
 					end
 				end
 			end
-			i = i+1
+			i = i.next
 		end
 
 		while @opStk.empty? == false
@@ -71,8 +81,8 @@ class ToPostfix
 					if i == @postfix.length-1
 						break
 					end
-					if integer? @postfix[i+1]
-						i = i+1
+					if integer? @postfix[i.next]
+						i = i.next
 						num = num + @postfix[i]
 					else
 						break
@@ -80,7 +90,7 @@ class ToPostfix
 				end
 				@sumStk.push(num.to_f)
 			end
-			i = i+1
+			i = i.next
 		end
 		return @sumStk.pop
 	end
